@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">ES Atlas</title>
+  <desc id="desc">A white application tile with a geometric ES monogram surrounded by connected data nodes.</desc>
+  <rect x="12" y="12" width="1000" height="1000" rx="212" fill="#FFFFFF" stroke="#DDE2E7" stroke-width="24"/>
+  <g fill="none" stroke="#AAB5BF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m178 244 150 74 174-106 190 84 154-68"/>
+    <path d="m166 776 166-96 170 122 194-76 158-52"/>
+    <path d="m178 244-12 532M502 212v590M846 228l8 446" opacity=".7"/>
+  </g>
+  <path d="M220 304h304v108H346v64h152v104H346v66h178v108H220Z" fill="#20262D"/>
+  <path d="M794 391c-45-35-96-53-147-53-58 0-88 20-88 52 0 30 32 44 102 58 104 21 164 66 164 151 0 99-80 163-202 163-80 0-151-25-205-76l72-83c42 36 87 54 137 54 55 0 83-18 83-50 0-29-28-43-96-57-109-23-170-68-170-153 0-96 78-160 198-160 83 0 153 23 213 70Z" fill="#E6533F"/>
+  <g stroke="#FFFFFF" stroke-width="16">
+    <circle cx="178" cy="244" r="38" fill="#2A9D8F"/>
+    <circle cx="502" cy="212" r="38" fill="#E6533F"/>
+    <circle cx="846" cy="228" r="38" fill="#F2B24B"/>
+    <circle cx="166" cy="776" r="38" fill="#E6533F"/>
+    <circle cx="502" cy="802" r="38" fill="#2A9D8F"/>
+    <circle cx="854" cy="674" r="38" fill="#2A9D8F"/>
+  </g>
+</svg>

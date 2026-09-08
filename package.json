@@ -1,0 +1,55 @@
+{
+  "name": "es-atlas-desktop",
+  "version": "0.1.1",
+  "description": "Cross-platform Elasticsearch and OpenSearch desktop manager",
+  "private": true,
+  "type": "module",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "test": "node --experimental-strip-types --test tests/unit/*.spec.ts tests/contract/*.spec.ts",
+    "build": "vue-tsc --noEmit && electron-vite build",
+    "preview": "electron-vite preview",
+    "dist": "npm run build && electron-builder --config electron-builder.yml",
+    "package:select": "node scripts/package-release.mjs"
+  },
+  "build": {
+    "appId": "com.esatlas.desktop",
+    "productName": "ES Atlas",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  },
+  "dependencies": {
+    "@aws-sdk/credential-provider-node": "^3.972.80",
+    "@element-plus/icons-vue": "^2.3.2",
+    "@smithy/hash-node": "^4.5.0",
+    "@smithy/signature-v4": "^5.7.0",
+    "element-plus": "^2.14.4",
+    "pinia": "^4.0.3",
+    "ssh2": "^1.17.0",
+    "vue": "^3.5.41"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/ssh2": "^1.15.5",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.10"
+  }
+}

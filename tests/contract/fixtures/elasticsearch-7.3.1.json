@@ -1,0 +1,44 @@
+{
+  "fixtureVersion": 1,
+  "product": "elasticsearch",
+  "version": "7.3.1",
+  "verification": "live-local",
+  "responses": {
+    "root": {
+      "name": "fixture-node",
+      "cluster_name": "fixture-cluster",
+      "cluster_uuid": "fixture-cluster-uuid",
+      "version": {
+        "number": "7.3.1",
+        "build_flavor": "default",
+        "build_type": "fixture",
+        "lucene_version": "8.1.0"
+      },
+      "tagline": "You Know, for Search"
+    },
+    "clusterHealth": {
+      "cluster_name": "fixture-cluster",
+      "status": "green",
+      "number_of_nodes": 1,
+      "active_primary_shards": 1,
+      "active_shards": 1,
+      "unassigned_shards": 0
+    },
+    "nodes": {
+      "_nodes": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0
+      },
+      "nodes": {
+        "fixture-node-id": {
+          "name": "fixture-node",
+          "roles": ["master", "data", "ingest"]
+        }
+      }
+    },
+    "tasks": {
+      "nodes": {}
+    }
+  }
+}

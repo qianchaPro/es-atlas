@@ -1,0 +1,44 @@
+{
+  "fixtureVersion": 1,
+  "product": "opensearch",
+  "version": "3.0.0",
+  "verification": "contract-only",
+  "responses": {
+    "root": {
+      "name": "fixture-node",
+      "cluster_name": "fixture-cluster",
+      "cluster_uuid": "fixture-cluster-uuid",
+      "version": {
+        "distribution": "opensearch",
+        "number": "3.0.0",
+        "build_type": "fixture",
+        "lucene_version": "10.1.0"
+      },
+      "tagline": "The OpenSearch Project: Search, Analyze, Observe"
+    },
+    "clusterHealth": {
+      "cluster_name": "fixture-cluster",
+      "status": "green",
+      "number_of_nodes": 1,
+      "active_primary_shards": 1,
+      "active_shards": 1,
+      "unassigned_shards": 0
+    },
+    "nodes": {
+      "_nodes": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0
+      },
+      "nodes": {
+        "fixture-node-id": {
+          "name": "fixture-node",
+          "roles": ["cluster_manager", "data", "ingest"]
+        }
+      }
+    },
+    "tasks": {
+      "nodes": {}
+    }
+  }
+}

@@ -1,0 +1,32 @@
+services:
+  elasticsearch:
+    image: ${ES_IMAGE:-dockerproxy.net/elastic/elasticsearch:8.17.3}
+    container_name: es-atlas-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - ES_JAVA_OPTS=${ES_JAVA_OPTS:--Xms256m -Xmx256m}
+      - cluster.name=${ES_CLUSTER_NAME:-es-atlas-local}
+      - node.name=${ES_NODE_NAME:-es-atlas-node-1}
+    ports:
+      - "20000:9200"
+      - "20001:9300"
+    volumes:
+      - es-atlas-data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - curl -fsS http://127.0.0.1:9200/ >/dev/null || exit 1
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
+
+volumes:
+  es-atlas-data:

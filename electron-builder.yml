@@ -1,0 +1,53 @@
+appId: com.esatlas.desktop
+productName: ES Atlas
+artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+
+directories:
+  output: release
+  buildResources: build
+
+asar: true
+npmRebuild: false
+files:
+  - out/**/*
+  - package.json
+  - "!tests{,/**/*}"
+  - "!docs{,/**/*}"
+  - "!**/*.log"
+  - "!**/*.{db,db-journal,sqlite,sqlite-journal,sqlite3}"
+  - "!**/{connection,connections,credential,credentials,secret,secrets}/**/*"
+  - "!**/*{credential,credentials,secret,secrets,token}*"
+  - "!**/connections.json"
+  - "!node_modules/cpu-features{,/**/*}"
+  - "!node_modules/ssh2/lib/protocol/crypto/build{,/**/*}"
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  icon: build/icon.icns
+  category: public.app-category.developer-tools
+
+dmg:
+  title: "${productName} ${version}"
+  artifactName: "${productName}-${version}-mac-${arch}.${ext}"
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.ico
+  verifyUpdateCodeSignature: true
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  runAfterFinish: true
+  artifactName: "${productName}-${version}-win-${arch}.${ext}"
