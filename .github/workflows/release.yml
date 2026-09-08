@@ -1,0 +1,74 @@
+name: Build release installers
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: release-installers
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15-intel
+            target: macos-x64
+            suffix: mac-x64.dmg
+          - runner: macos-14
+            target: macos-arm64
+            suffix: mac-arm64.dmg
+          - runner: windows-2022
+            target: windows-x64
+            suffix: win-x64.exe
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Check release draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+          test "$(gh release view "v$version" --json isDraft --jq .isDraft)" = true
+      - run: npm ci
+      - name: Test, build and audit installer
+        env:
+          TARGET: ${{ matrix.target }}
+        run: npm run package:select -- --target "$TARGET" --yes
+      - name: Verify macOS signature and image
+        if: runner.os == 'macOS'
+        env:
+          TARGET: ${{ matrix.target }}
+          SUFFIX: ${{ matrix.suffix }}
+        run: |
+          app=$(find "release/$TARGET" -maxdepth 2 -name 'ES Atlas.app' -print -quit)
+          test -n "$app"
+          codesign --verify --deep --strict "$app"
+          hdiutil verify "release/$TARGET/ES Atlas-$RELEASE_VERSION-$SUFFIX"
+      - name: Upload verified installer to draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET: ${{ matrix.target }}
+          SUFFIX: ${{ matrix.suffix }}
+        run: |
+          mkdir -p release/github
+          artifact="ES.Atlas-$RELEASE_VERSION-$SUFFIX"
+          cp "release/$TARGET/ES Atlas-$RELEASE_VERSION-$SUFFIX" "release/github/$artifact"
+          gh release upload "v$RELEASE_VERSION" "release/github/$artifact"
