@@ -22,6 +22,8 @@ files:
   - "!node_modules/ssh2/lib/protocol/crypto/build{,/**/*}"
 
 mac:
+  # 开源安装包使用本地签名，避免改写应用资源后残留无效的 Electron 原始签名。
+  identity: "-"
   target:
     - target: dmg
       arch:
