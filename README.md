@@ -10,9 +10,9 @@
 
 | 系统 | 安装包 |
 | --- | --- |
-| macOS Intel | `ES.Atlas-0.1.1-mac-x64.dmg` |
-| macOS Apple Silicon（M 系列） | `ES.Atlas-0.1.1-mac-arm64.dmg` |
-| Windows 64 位（Intel / AMD） | `ES.Atlas-0.1.1-win-x64.exe` |
+| macOS Intel | [ES.Atlas-0.1.1-mac-x64.dmg](https://github.com/qianchaPro/es-atlas/releases/download/v0.1.1/ES.Atlas-0.1.1-mac-x64.dmg) |
+| macOS Apple Silicon（M 系列） | [ES.Atlas-0.1.1-mac-arm64.dmg](https://github.com/qianchaPro/es-atlas/releases/download/v0.1.1/ES.Atlas-0.1.1-mac-arm64.dmg) |
+| Windows 64 位（Intel / AMD） | [ES.Atlas-0.1.1-win-x64.exe](https://github.com/qianchaPro/es-atlas/releases/download/v0.1.1/ES.Atlas-0.1.1-win-x64.exe) |
 
 macOS：打开 DMG，将 ES Atlas 拖入“应用程序”。Windows：运行 EXE，按向导选择安装位置。安装包当前未进行开发者证书签名和 Apple 公证，系统可能显示来源提示；下载后可使用同一 Release 中的 `SHA256SUMS.txt` 校验文件完整性。Windows ARM64 和 Linux 暂不提供本次预构建安装包。
 
