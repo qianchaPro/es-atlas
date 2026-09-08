@@ -163,6 +163,9 @@ async function buildTarget(target) {
   await runCommand(resolveElectronBuilderCommand(), [
     '--config',
     'electron-builder.yml',
+    // 先完成产物审计，发布由独立步骤处理，避免 CI 环境触发隐式上传。
+    '--publish',
+    'never',
     ...target.builderArguments,
     `--config.directories.output=${target.outputDirectory}`
   ], {
@@ -236,7 +239,13 @@ async function findFiles(directory, predicate) {
 
 function runCommand(command, commandArguments, environment = process.env) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, commandArguments, {
+    // Windows 不支持直接 spawn .cmd；用 Node 加载已有 CLI，避免引入 shell 转义。
+    const nodeScript = process.platform === 'win32'
+      ? command === resolveNpmCommand()
+        ? process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js')
+        : path.join(repositoryRoot, 'node_modules/electron-builder/out/cli/cli.js')
+      : null
+    const child = spawn(nodeScript ? process.execPath : command, nodeScript ? [nodeScript, ...commandArguments] : commandArguments, {
       cwd: repositoryRoot,
       env: environment,
       stdio: 'inherit',
