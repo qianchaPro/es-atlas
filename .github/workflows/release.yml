@@ -2,6 +2,16 @@ name: Build release installers
 
 on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: Packaging target
+        type: choice
+        default: all
+        options:
+          - all
+          - macos-x64
+          - macos-arm64
+          - windows-x64
 
 concurrency:
   group: release-installers
@@ -17,17 +27,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: macos-15-intel
-            target: macos-x64
-            suffix: mac-x64.dmg
-          - runner: macos-14
-            target: macos-arm64
-            suffix: mac-arm64.dmg
-          - runner: windows-2022
-            target: windows-x64
-            suffix: win-x64.exe
-    runs-on: ${{ matrix.runner }}
+        target: ${{ fromJSON(inputs.target == 'all' && '["macos-x64","macos-arm64","windows-x64"]' || format('["{0}"]', inputs.target)) }}
+    runs-on: ${{ matrix.target == 'windows-x64' && 'windows-2022' || matrix.target == 'macos-x64' && 'macos-15-intel' || 'macos-14' }}
+    env:
+      SUFFIX: ${{ matrix.target == 'windows-x64' && 'win-x64.exe' || matrix.target == 'macos-x64' && 'mac-x64.dmg' || 'mac-arm64.dmg' }}
     timeout-minutes: 30
     defaults:
       run:
@@ -56,7 +59,6 @@ jobs:
         if: runner.os == 'macOS'
         env:
           TARGET: ${{ matrix.target }}
-          SUFFIX: ${{ matrix.suffix }}
         run: |
           app=$(find "release/$TARGET" -maxdepth 2 -name 'ES Atlas.app' -print -quit)
           test -n "$app"
@@ -66,7 +68,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET: ${{ matrix.target }}
-          SUFFIX: ${{ matrix.suffix }}
         run: |
           mkdir -p release/github
           artifact="ES.Atlas-$RELEASE_VERSION-$SUFFIX"

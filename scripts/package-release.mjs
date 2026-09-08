@@ -213,7 +213,7 @@ async function auditAsar(asarPath) {
     }
   }
 
-  const mainProcessSource = extractFile(asarPath, 'out/main/index.js').toString('utf8')
+  const mainProcessSource = extractFile(asarPath, path.join('out', 'main', 'index.js')).toString('utf8')
   if (/createDefaultConnection\s*\(\s*['"]/u.test(mainProcessSource)) {
     throw new Error(`产物审计失败：主进程仍包含硬编码默认连接，asar=${asarPath}`)
   }
